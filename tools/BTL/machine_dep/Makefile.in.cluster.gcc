@@ -1,0 +1,64 @@
+BOOST_ROOT=/home/plagne/boost/boost_1_28_0
+BLITZ_ROOT=/home/plagne/Blitz/blitz-20001213
+
+MTL_ROOT=/home/plagne/MTL/gcc/mtl-2.1.2-20
+MTL_PATCH=/home/plagne/mtl_patch/mtl-spec-1.0
+ITL_ROOT=/home/plagne/MTL/ITL/itl-4.0.0-1
+
+
+TIMER_INCLUDE=$(BENCH_BASE)/Timer
+TIMER_LINUX=$(TIMER_INCLUDE)/system_time_linux
+TIMER_C=$(TIMER_INCLUDE)/system_time_C
+### A utiliser pour les pentium linux 
+TIMER_DIR=$(TIMER_LINUX)
+### A utiliser pour les autre systemes 
+###TIMER_DIR=$(TIMER_C)
+
+ATLAS_BLAS_LIB=/home/plagne/ATLAS/ATLAS/lib/Linux_PIII_2
+ATLAS_BLAS_INCLUDE2=/home/plagne/ATLAS/ATLAS/include/Linux_PIII_2
+ATLAS_BLAS_INCLUDE=/home/plagne/ATLAS/ATLAS/include
+
+
+
+
+FORTRAN_DIR=$(BENCH_BASE)/C_F77/FORTRAN
+
+CLOCK_OBJ=$(TIMER_LINUX)/system_time.o
+
+STL_DIR=$(BENCH_BASE)/STL
+
+GENERIC=$(BENCH_BASE)/generic
+
+FORTRAN=$(BENCH_BASE)/F77
+
+INCLUDE= -I$(BLITZ_ROOT) -I$(MTL_ROOT) -I$(ITL_ROOT) -I$(STL_DIR) -I$(TIMER_INCLUDE) -I$(BENCH_BASE)  -I$(ATLAS_BLAS_INCLUDE) -I$(ATLAS_BLAS_INCLUDE2) -I$(GENERIC) -I$(FORTRAN) -I$(BOOST_ROOT)
+
+##CXX = KCC
+CXX=g++ -DNDEBUG  -D_DEBUG_ -D_FREQUENCY_=798000000
+
+
+##DEBUG=--restrict --strict_warnings -g +K0 -DBZ_DEBUG -D_DEBUG_
+
+##OPTIM=--inline_keyword_space_time=10000 --strict_warnings +K3 -O3
+
+DEBUG= -g -DBZ_DEBUG -D_DEBUG_
+
+##OPTIM=-O3 -fomit-frame-pointer -ffast-math -funroll-loops -fstrength-reduce -felide-constructors -fexpensive-optimizations -fschedule-insns
+
+OPTIM=-O3 -funroll-loops
+
+
+##CXXFLAGS = $(DEBUG) $(INCLUDE)
+CXXFLAGS = $(OPTIM) $(INCLUDE)
+
+LIBS_BASE = $(STL_DIR)/libreadSTL.a $(TIMER_INCLUDE)/libtimer.a  -lm 
+
+
+############################################################################
+
+.SUFFIXES: .o .cpp 
+
+.cpp.o:$(srcdir)/$
+	$(CXX) $(CXXFLAGS) -c $<
+
+###########################################################################

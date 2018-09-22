@@ -1,0 +1,81 @@
+BOOST_ROOT=/home/plagne/boost/boost_1_28_0
+BLITZ_ROOT=/home/plagne/Blitz_kcc/blitz-20001213
+
+MTL_ROOT=/home/plagne/MTL/mtl-2.1.2-20
+MTL_PATCH=/home/plagne/mtl_patch/mtl-spec-1.0
+ITL_ROOT=/home/plagne/MTL/ITL/itl-4.0.0-1
+
+
+TIMER_INCLUDE=$(BENCH_BASE)/Timer
+TIMER_LINUX=$(TIMER_INCLUDE)/system_time_linux
+TIMER_C=$(TIMER_INCLUDE)/system_time_C
+
+### A utiliser pour les pentium linux 
+
+TIMER_DIR=$(TIMER_LINUX)
+
+### A utiliser pour les autre systemes 
+###TIMER_DIR=$(TIMER_C)
+
+ATLAS_BLAS_LIB=/home/plagne/ATLAS/ATLAS/lib/Linux_PIII_2
+ATLAS_BLAS_INCLUDE2=/home/plagne/ATLAS/ATLAS/include/Linux_PIII_2
+ATLAS_BLAS_INCLUDE=/home/plagne/ATLAS/ATLAS/include
+
+
+
+
+FORTRAN_DIR=$(BENCH_BASE)/C_F77/FORTRAN
+
+CLOCK_OBJ=$(TIMER_LINUX)/system_time.o
+
+STL_DIR=$(BENCH_BASE)/STL
+
+GENERIC=$(BENCH_BASE)/generic
+
+FORTRAN=$(BENCH_BASE)/F77
+
+INCLUDE= -I$(BLITZ_ROOT) -I$(MTL_ROOT) -I$(ITL_ROOT) -I$(STL_DIR) -I$(BENCH_BASE)  -I$(ATLAS_BLAS_INCLUDE) -I$(ATLAS_BLAS_INCLUDE2) -I$(GENERIC) -I$(FORTRAN) -I$(BOOST_ROOT) -I$(TIMER_INCLUDE)
+
+CXX = KCC -DNDEBUG -D_FREQUENCY_=798000000 -D_DEBUG_
+
+MAKE_LIB=KCC -o
+##MAKE_LIB= ar cr
+
+##CXX=g++ -DNDEBUG  -D_DEBUG_ -D_FREQUENCY_=798000000
+
+##DEBUG=--restrict --strict_warnings -g +K0 -DBZ_DEBUG -D_DEBUG_
+
+##OPTIM=--inline_keyword_space_time=10000 --strict_warnings +K3 -O3
+
+DEBUG= -g -DBZ_DEBUG -D_DEBUG_
+
+##OPTIM=--restrict --inline_keyword_space_time=10000 --strict_warnings +K3 -O3 
+
+OPTIM=--one_per --inline_keyword_space_time=10000 --restrict --strict_warnings +K3 -O3
+
+
+##CXXFLAGS = $(DEBUG) $(INCLUDE)
+CXXFLAGS = $(OPTIM) $(INCLUDE)
+
+##LIBS_BASE = $(STL_DIR)/libreadSTL.a $(TIMER_INCLUDE)/libtimer.a  -lm 
+LIBS_BASE = -L$(TIMER_INCLUDE) -ltimer  -lm -L$(STL_DIR) -lreadSTL
+##LIBS_BASE = -lm 
+
+
+############################################################################
+
+.SUFFIXES: .o .cpp 
+
+.cpp.o:$(srcdir)/$
+	$(CXX) $(CXXFLAGS) -c $<
+
+###########################################################################
+
+############################################################################
+
+.SUFFIXES: .o .cxx
+
+.cxx.o:$(srcdir)/$
+	$(CXX) $(CXXFLAGS) -c $<
+
+###########################################################################

@@ -1,0 +1,6 @@
+add_subdirectory("blas")
+add_subdirectory("dsp")
+add_subdirectory("mlp")
+add_subdirectory("estimation")
+add_subdirectory("numerical")
+add_subdirectory("apf")
