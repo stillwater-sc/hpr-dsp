@@ -1,0 +1,100 @@
+##  UBLAS
+
+BOOST_ROOT=/home/plagne/boost/boost_1_28_0
+
+##  BLITZ
+
+BLITZ_ROOT=/home/plagne/blitz/blitz-20001213
+
+##  MTL
+
+MTL_ROOT=/home/plagne/MTL/mtl-2.1.2-21
+MTL_PATCH=/home/plagne/mtl_patch/mtl-spec-1.0
+ITL_ROOT=/home/plagne/MTL/ITL/itl-4.0.0-1
+
+##  ATLAS
+
+ATLAS_BLAS_LIB=/home/plagne/ATLAS/ATLAS/lib/Linux_ATHLON
+ATLAS_BLAS_INCLUDE2=/home/plagne/ATLAS/ATLAS/include/Linux_ATHLON
+ATLAS_BLAS_INCLUDE=/home/plagne/ATLAS/ATLAS/include
+
+## C_BLAS
+
+C_BLAS_INCLUDE=/home/plagne/blas_netlib/CBLAS/src
+C_BLAS_LIB=/home/plagne/blas_netlib/CBLAS/lib/LINUX/cblas_LINUX.a
+F77_BLAS_LIB=/home/plagne/blas_netlib/f77_blas/libblas.a 
+
+## INTEL_BLAS
+
+INTEL_BLAS_INCLUDE=/opt/intel/mkl/include
+IBLIB=/opt/intel/mkl/lib/32
+INTEL_BLAS_LIB=$(IBLIB)/libmkl_lapack.a $(IBLIB)/libmkl_p3.a $(IBLIB)/libmkl_p4.a $(IBLIB)/libguide.a $(IBLIB)/libmkl_def.a -lg2c -lpthread
+##INTEL_BLAS_LIB=-L/opt/intel/mkl/lib/32 -lmkl_lapack64 -lmkl_lapack32 -lmkl_p4 -lmkl_p3 -lguide -lmkl_def -lg2c 
+
+
+
+## INCLUDES 
+
+STL=$(BENCH_BASE)/libs/STL
+GENERIC=$(BENCH_BASE)/generic_bench
+FORTRAN_DIR=$(BENCH_BASE)/libs/f77
+
+DEPEND_BASE= $(BENCH_BASE)/Makefile.in Makefile $(GENERIC)/bench.hh
+
+INCLUDES_BASE=  -I$(BENCH_BASE)/includes -I$(STL) -I$(GENERIC) 
+
+## LIBS 
+
+LIBS_BASE = -lm 	
+
+##CXX = KCC
+
+DEFINED_VAR= 
+CXX=g++ $(DEFINED_VAR)
+MAKE_LIB= ar cr
+
+##DEBUG=--restrict --strict_warnings -g +K0 -DBZ_DEBUG -D_DEBUG_
+
+##OPTIM=--inline_keyword_space_time=10000 --strict_warnings +K3 -O3
+
+DEBUG_BASE= -g
+
+##OPTIM=-O3 -fomit-frame-pointer -ffast-math -funroll-loops -fstrength-reduce -felide-constructors -fexpensive-optimizations -fschedule-insns
+
+##OPTIM_BASE=-march=i686 -O3 -fomit-frame-pointer -funroll-loops -frerun-cse-after-loop -felide-constructors -fexpensive-optimizations  -fschedule-insns2 -fstrict-aliasing -finline-functions
+
+OPTIM_BASE=-O3 -funroll-loops -fstrict-aliasing -ftemplate-depth-30
+##OPTIM=-fno-default-inline
+
+
+###########################################################################
+
+.SUFFIXES: .o .cpp 
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -c $<
+
+###########################################################################
+###########################################################################
+
+.SUFFIXES: .o .cxx 
+
+.cxx.o:
+	$(CXX) $(CXXFLAGS) -c $<
+
+###########################################################################
+
+default: 
+	make all
+
+test_conf :
+	@if test -z "$(BENCH_BASE)";   \
+	then echo "!!!!!! Please first execute (source) conf.sh script " ; \
+		echo "!!!!!! in this top directory ";  	\
+	fi
+
+clean:
+	rm -f *.o *.ii *.int.c *.s *~ \#* main core rm *.dat *.a
+	rm -rf ti_files
+
+
