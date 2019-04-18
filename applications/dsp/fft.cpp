@@ -1,8 +1,8 @@
 // fft.cpp example program showing a fast fourier transform using error-free custom posit configurations
 //
-// Copyright (C) 2017-2018 Stillwater Supercomputing, Inc.
+// Copyright (C) 2017-2019 Stillwater Supercomputing, Inc.
 //
-// This file is part of the HPR-BLAS project, which is released under an MIT Open Source license.
+// This file is part of the HPR-DSP project, which is released under an MIT Open Source license.
 
 #include "common.hpp"
 
@@ -28,8 +28,9 @@ log_e(10)		M_LN10		2.30258509299404568402
 
 constexpr double PI = 3.141592653589793238460;  // best practice for C++
 
-using value_type = double;
-using Complex = std::complex<value_type>;
+//using Scalar = float;
+using Scalar = sw::unum::posit<32,2>;
+using Complex = std::complex<Scalar>;
 using Samples = mtl::dense_vector<Complex>;
 
 #include <valarray>
@@ -51,7 +52,7 @@ void fft_dac(std::valarray<Complex>& x)
 	// combine
 	for (size_t k = 0; k < N / 2; ++k)
 	{
-		Complex t = std::polar(1.0, -2 * PI * k / N) * odd[k];
+		Complex t = Complex(std::polar(1.0, -2 * PI * k / N)) * odd[k];
 		x[k] = even[k] + t;
 		x[k + N / 2] = even[k] - t;
 	}
@@ -59,8 +60,7 @@ void fft_dac(std::valarray<Complex>& x)
 
 // Cooley-Tukey FFT (in-place, breadth-first, decimation-in-frequency)
 // Better optimized but less intuitive
-void fft(Samples &x)
-{
+void fft(Samples &x) {
 	// DFT
 	size_t N = size(x), k = N, n;
 	double thetaT = 3.14159265358979323846264338328L / N;
@@ -121,44 +121,59 @@ void ifft(Samples& x)
 	x /= scale;
 }
 
+void ForwardInverseFFT(size_t nrSamples) {
+	Samples sinusoid(nrSamples), weights(nrSamples), scratch(nrSamples);
+
+	Scalar twoPi = 2.0 * PI;
+	Scalar base = twoPi / Scalar(nrSamples);
+	for (int i = 0; i < nrSamples; i++) {
+		sinusoid[i] = sin(Scalar(i) * base);
+		scratch[i] = sinusoid[i];
+		weights[i] = Scalar(0.5);
+	}
+
+
+	// input data
+	std::cout << "input samples" << std::endl;
+	for (int i = 0; i < nrSamples; ++i) {
+		std::cout << scratch[i] << std::endl;
+	}
+
+	// forward fft
+	fft(scratch);
+
+	std::cout << "fft" << std::endl;
+	for (int i = 0; i < nrSamples; ++i) {
+		std::cout << scratch[i] << std::endl;
+	}
+
+	// inverse fft
+	ifft(scratch);
+
+	std::cout << std::endl << "ifft" << std::endl;
+	for (int i = 0; i < nrSamples; ++i) {
+		std::cout << scratch[i] << std::endl;
+	}
+
+	std::cout << std::endl << "difference between input and fwd/inv fft result\n";
+	std::cout << "#   real    imag\n";
+	Scalar reDiff, imDiff;
+	for (int i = 0; i < nrSamples; ++i) {
+		reDiff = scratch[i].real() - sinusoid[i].real();
+		imDiff = scratch[i].imag() - sinusoid[i].imag();
+		std::cout << std::setw(3) << i << "  " << std::setw(12) << reDiff << ", " << std::setw(12) << imDiff << std::endl;
+	}
+}
+
 int main(int argc, char** argv)
 try {
 	using namespace std;
 	using namespace sw::unum;
 
-	const size_t nbits = 16;
-	const size_t es = 1;
-	const size_t vecSize = 32;
+	const size_t nrSamples = 32;
 	int nrOfFailedTestCases = 0;
 
-	posit<nbits, es> p;
-	vector< posit<nbits, es> > sinusoid(vecSize), weights(vecSize);
-
-	for (int i = 0; i < vecSize; i++) {
-		sinusoid[i] = sin((float(i) / float(vecSize)) *2.0 * PI);
-
-		weights[i] = 0.5f;
-	}
-
-	value_type initial_value[] = { 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
-	Samples data(initial_value);
-
-	// forward fft
-	fft(data);
-
-	std::cout << "fft" << std::endl;
-	for (int i = 0; i < 8; ++i)
-	{
-		std::cout << data[i] << std::endl;
-	}
-
-	// inverse fft
-	ifft(data);
-
-	std::cout << std::endl << "ifft" << std::endl;
-	for (int i = 0; i < 8; ++i)	{
-		std::cout << data[i] << std::endl;
-	}
+	ForwardInverseFFT(nrSamples);
 
 	return (nrOfFailedTestCases > 0 ? EXIT_FAILURE : EXIT_SUCCESS);
 }

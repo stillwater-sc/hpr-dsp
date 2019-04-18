@@ -1,8 +1,8 @@
 // fir_filter.cpp example program showing a FIR filter using error-free custom posit configurations
 //
-// Copyright (C) 2017 Stillwater Supercomputing, Inc.
+// Copyright (C) 2017-2019 Stillwater Supercomputing, Inc.
 //
-// This file is part of the universal numbers project, which is released under an MIT Open Source license.
+// This file is part of the HPR-DSP project, which is released under an MIT Open Source license.
 
 
 #include "common.hpp"
