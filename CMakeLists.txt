@@ -1,4 +1,4 @@
-# Hyper-DSP: high-performance reproducible digital signal processing
+# HPR-DSP: high-performance reproducible digital signal processing
 project (hpr-dsp)
 
 cmake_minimum_required(VERSION 3.0)
@@ -26,6 +26,7 @@ if (HPR_DSP_ENABLE_TESTS)
     # include(Dart)
 endif()
 
+cmake_policy(SET CMP0074 NEW)
 find_package(Boost)
 message(STATUS "Boost_FOUND " ${Boost_FOUND})
 if (Boost_FOUND)
@@ -33,20 +34,28 @@ if (Boost_FOUND)
 	include_directories(${Boost_INCLUDE_DIR})
 endif (Boost_FOUND)
 
+cmake_policy(SET CMP0054 NEW)
 find_package(MTL REQUIRED)
 include_directories(${MTL_INCLUDE_DIRS})
 add_definitions(${MTL_CXX_DEFINITIONS})
 
-# Set posit include directory
+# Set include directory for universal number lib (posit, fixedpoint, afloat)
 find_package(UNIVERSAL REQUIRED)
 include_directories(${UNIVERSAL_INCLUDE_DIRS})
 message(STATUS "UNIVERSAL INCLUDE DIR " ${UNIVERSAL_INCLUDE_DIRS})
 
-# Set hpr-blas include directory
+# set include directory for hpr-blas
+message(STATUS "prefind:  HPR_BLAS_DIR = ${HPR_BLAS_DIR}")
+find_package(HPR_BLAS REQUIRED)
+message(STATUS "postfind: HPR_BLAS_DIR = ${HPR_BLAS_DIR}")
+include_directories(${HPR_BLAS_INCLUDE_DIRS})
+message(STATUS "HPR BLAS INCLUDE DIR " ${HPR_BLAS_INCLUDE_DIRS})
+
+# Set hpr-dsp include directory
 include_directories("./include")
 
 # Possibly not under Windows
-add_compile_options ( -std=c++11 -fext-numeric-literals )
+add_compile_options ( -std=c++14 -fext-numeric-literals )
 
 macro (compile_all testing prefix)
     # cycle through the sources
