@@ -1,5 +1,4 @@
-message(STATUS "HPR_BLASConfig.cmake entered")
-message(STATUS " HPR_BLAS_DIR is set to ${HPR_BLAS_DIR}")
+message(STATUS " HPR_BLAS_DIR is ${HPR_BLAS_DIR}")
 
 set(HPR_BLAS_COMMON_CONFIG "${HPR_BLAS_DIR}/tools/cmake/HPR_BLASCommon.cmake")
 
