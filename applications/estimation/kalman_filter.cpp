@@ -1,11 +1,10 @@
-// kalman_filter.cpp example program comparing float vs posit kalman filtering
+// kalman_filter.cpp: example program comparing float vs posit kalman filtering
 //
-// Copyright (C) 2017-2018 Stillwater Supercomputing, Inc.
+// Copyright (C) 2017-2020 Stillwater Supercomputing, Inc.
 //
 // This file is part of the universal numbers project, which is released under an MIT Open Source license.
 
-// enable the mathematical constants in cmath: old-style preprocessor magic which isn't best practice anymore
-#include "common.hpp"
+#include <universal/posit/posit>
 
 #include "kalman.hpp"
 
