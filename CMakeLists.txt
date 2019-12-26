@@ -40,7 +40,9 @@ include_directories(${MTL_INCLUDE_DIRS})
 add_definitions(${MTL_CXX_DEFINITIONS})
 
 # Set include directory for universal number lib (posit, fixedpoint, afloat)
+message(STATUS "prefind:  UNIVERSAL_DIR = ${UNIVERSAL_DIR}")
 find_package(UNIVERSAL REQUIRED)
+message(STATUS "postfind: UNIVERSAL_DIR = ${UNIVERSAL_DIR}")
 include_directories(${UNIVERSAL_INCLUDE_DIRS})
 message(STATUS "UNIVERSAL INCLUDE DIR " ${UNIVERSAL_INCLUDE_DIRS})
 
