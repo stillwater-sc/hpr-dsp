@@ -40,16 +40,12 @@ include_directories(${MTL_INCLUDE_DIRS})
 add_definitions(${MTL_CXX_DEFINITIONS})
 
 # Set include directory for universal number lib (posit, fixedpoint, afloat)
-message(STATUS "prefind:  UNIVERSAL_DIR = ${UNIVERSAL_DIR}")
 find_package(UNIVERSAL REQUIRED)
-message(STATUS "postfind: UNIVERSAL_DIR = ${UNIVERSAL_DIR}")
 include_directories(${UNIVERSAL_INCLUDE_DIRS})
 message(STATUS "UNIVERSAL INCLUDE DIR " ${UNIVERSAL_INCLUDE_DIRS})
 
 # set include directory for hpr-blas
-message(STATUS "prefind:  HPR_BLAS_DIR = ${HPR_BLAS_DIR}")
 find_package(HPR_BLAS REQUIRED)
-message(STATUS "postfind: HPR_BLAS_DIR = ${HPR_BLAS_DIR}")
 include_directories(${HPR_BLAS_INCLUDE_DIRS})
 message(STATUS "HPR BLAS INCLUDE DIR " ${HPR_BLAS_INCLUDE_DIRS})
 
