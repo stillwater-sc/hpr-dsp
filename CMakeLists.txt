@@ -53,7 +53,8 @@ message(STATUS "HPR BLAS INCLUDE DIR " ${HPR_BLAS_INCLUDE_DIRS})
 include_directories("./include")
 
 # Possibly not under Windows
-add_compile_options ( -std=c++14 -fext-numeric-literals )
+#add_compile_options ( -fext-numeric-literals )
+add_compile_options ( -std=c++14 )
 
 macro (compile_all testing prefix)
     # cycle through the sources
@@ -78,4 +79,3 @@ add_subdirectory("tools/benchmark")
 add_subdirectory("tools/matrix_generation")
 add_subdirectory("dsp")
 add_subdirectory("applications")
-add_subdirectory("tests/posit")
