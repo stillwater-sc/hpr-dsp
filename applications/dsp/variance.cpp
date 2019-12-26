@@ -47,9 +47,21 @@ try {
 
 	Samples s1(nrSamples), s2(nrSamples), s3(nrSamples);
 
+	Scalar twoPi = 2.0 * PI;
+	Scalar base = twoPi / Scalar(nrSamples);
+	for (int i = 0; i < nrSamples; i++) {
+		s1[i] = sin(Scalar(i) * base);
+	}
+
 	// calculate mean value of input signal
-	Scalar mean = sum(s1)/Scalar(nrSamples);
+	Scalar mean = sw::hprblas::sum(nrSamples, s1)/Scalar(nrSamples);
+	s2 = mean;
+	s3 = s1 - s2;
 	
+	cout << "s1\n" << s1 << endl;	
+	cout << "s2\n" << s2 << endl;	
+	cout << "s3\n" << s3 << endl;
+
 
 
 	return (nrOfFailedTestCases > 0 ? EXIT_FAILURE : EXIT_SUCCESS);
