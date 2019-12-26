@@ -1,14 +1,13 @@
 // neural_network.cpp example program using posit arithmetic for a neural network simulation
 //
-// Copyright (C) 2017-2018 Stillwater Supercomputing, Inc.
+// Copyright (C) 2017-2020 Stillwater Supercomputing, Inc.
 //
 // This file is part of the universal numbers project, which is released under an MIT Open Source license.
 
-#include "common.hpp"
-
-#include <posit>
 #define MTL_WITH_INITLIST 1
 #include <boost/numeric/mtl/mtl.hpp>
+// select number system
+#include <universal/posit/posit>
 
 // Turn it off for now
 #undef USE_POSIT
