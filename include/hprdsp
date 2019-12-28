@@ -1,0 +1,15 @@
+// HPR-DSP standard header
+//
+// Copyright (C) 2017-2020 Stillwater Supercomputing, Inc.
+//
+// This file is part of the HPR-DSP project, which is released under an MIT Open Source license.
+#ifndef _HPRDSP_
+#define _HPRDSP_
+
+#include <hprblas>
+#include <filters/fir/fir.hpp>
+#include <filters/iir/iir.hpp>
+#include <signals/generator.hpp>
+
+
+#endif // _HPRDSP_
