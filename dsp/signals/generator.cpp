@@ -11,13 +11,6 @@
 
 constexpr double PI = 3.141592653589793238460;  // best practice for C++
 
-template<typename Scalar>
-struct Sine : public sw::hprdsp::ElementaryFunction<Scalar> {
-	Sine() {};
-	virtual Scalar operator()(Scalar x) {
-		return sin(x);
-	}
-};
 
 int main(int argc, char** argv)
 try {
@@ -26,17 +19,22 @@ try {
 	using namespace sw::hprblas;
 	using namespace sw::hprdsp;
 
-	constexpr size_t nrSamples = 32;
+	constexpr unsigned nrSamples = 32;
 	int nrOfFailedTestCases = 0;
 
 	using Scalar = posit<16, 1>;
 	using Vector = mtl::dense_vector<Scalar>;
 
-	Vector sinusoid;
 
-	ElementaryFunction<Scalar>* sine = new Sine<Scalar>();
+	Scalar freq = 1.0e6; // 1MHz
+	Scalar vlow = 0;  // Volt
+	Scalar vhigh = 1; // Volt
+	Scalar startTime = 0; // in seconds
+	Sinusoid<Scalar> sine(freq, vlow, vhigh);
+	SignalGenerator<Scalar> signalgen(2 * freq, startTime);
+	Vector samples = signalgen.sample<Vector>(nrSamples, &sine);
 
-	sinusoid = signalgen<Scalar,Vector>(Scalar(0), Scalar(PI), Scalar(PI / 4), sine);
+	cout << "samples\n" << samples << endl;
 
 	return (nrOfFailedTestCases > 0 ? EXIT_FAILURE : EXIT_SUCCESS);
 }

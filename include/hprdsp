@@ -7,9 +7,9 @@
 #define _HPRDSP_
 
 #include <hprblas>
+#include <signals/generator.hpp>
 #include <filters/fir/fir.hpp>
 #include <filters/iir/iir.hpp>
-#include <signals/generator.hpp>
 
 
 #endif // _HPRDSP_
