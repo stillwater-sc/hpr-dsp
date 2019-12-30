@@ -22,7 +22,7 @@ try {
 	constexpr unsigned nrSamples = 32;
 	int nrOfFailedTestCases = 0;
 
-	using Scalar = posit<16, 1>;
+	using Scalar = float; // posit<16, 1>;
 	using Vector = mtl::dense_vector<Scalar>;
 
 
@@ -34,7 +34,7 @@ try {
 	SignalGenerator<Scalar> signalgen(2 * freq, startTime);
 	Vector samples = signalgen.sample<Vector>(nrSamples, &sine);
 
-	cout << "samples\n" << samples << endl;
+	DisplaySignal<Scalar, Vector>(cout, samples);
 
 	return (nrOfFailedTestCases > 0 ? EXIT_FAILURE : EXIT_SUCCESS);
 }
