@@ -76,6 +76,6 @@ macro (compile_all testing prefix)
 endmacro (compile_all)
 
 add_subdirectory("tools/benchmark")
-add_subdirectory("tools/matrix_generation")
+#add_subdirectory("tools/matrix_generation")
 add_subdirectory("dsp")
 add_subdirectory("applications")

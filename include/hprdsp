@@ -8,6 +8,7 @@
 
 #include <hprblas>
 #include <signals/generator.hpp>
+#include <signals/print_signals.hpp>
 #include <filters/fir/fir.hpp>
 #include <filters/iir/iir.hpp>
 
