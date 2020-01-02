@@ -36,9 +36,12 @@ try {
 	for (auto t_step : t) {
 		ts[i++] = twoPi * t_step;
 	}
-	Vector v = myVectorSine<Vector>(ts);
+	Vector v;
+	v = sin(ts);  // vector-valued sin function
 
 	DisplaySignal<Scalar, Vector>(cout, v);
+
+	cout << "Is Vector a proper vector: " << (isVector<Vector>::value ? "yes" : "no") << endl;
 
 	return (nrOfFailedTestCases > 0 ? EXIT_FAILURE : EXIT_SUCCESS);
 }
