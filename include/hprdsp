@@ -7,8 +7,10 @@
 #define _HPRDSP_
 
 #include <hprblas>
+#include <ranges/timeRange.hpp>
 #include <signals/generator.hpp>
 #include <signals/print_signals.hpp>
+#include <elementary/sin.hpp>
 #include <filters/fir/fir.hpp>
 #include <filters/iir/iir.hpp>
 

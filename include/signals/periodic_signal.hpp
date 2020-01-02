@@ -31,6 +31,8 @@ public:
 		voltageRange = vhigh - vlow;
 	}
 	virtual Real operator()(Real t) {
+//		using namespace std;
+//		using namespace sw::unum;
 		return sin(t*frequency()) * voltageRange;
 	}
 private:
